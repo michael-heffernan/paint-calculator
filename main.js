@@ -83,6 +83,7 @@ const validateYorN = () => {
   return input;
 };
 
+// Calculate sum of array
 const arraySum = (array) => {
   let sum = 0;
   for (let i = 0; i < array.length; i++) {
@@ -90,5 +91,23 @@ const arraySum = (array) => {
   }
   return sum;
 };
+
+const paintTypes = [
+  {
+    name: "GoodHome",
+    prices: [
+      { size: 5, price: 22 },
+      { size: 2.5, price: 16 },
+    ],
+  },
+  {
+    name: "Dulux",
+    prices: [
+      { size: 10, price: 24 },
+      { size: 5, price: 18 },
+      { size: 2.5, price: 15 },
+    ],
+  },
+];
 
 start();
