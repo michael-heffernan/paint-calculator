@@ -32,7 +32,7 @@ const wallCalc = () => {
   console.log(
     "Are there any obstructions or areas of the wall that do not need painting? (y/n)"
   );
-  let obstructios = prompt(">");
+  let obstructios = validateYorN();
   if (obstructios.toLowerCase() == "y") {
     obstructedArea = obstructionCalc();
   }
@@ -56,14 +56,30 @@ const obstructionCalc = () => {
     let obstructionArea = width * height;
 
     console.log("Are there any more obstructions? (y/n)");
-    let moreObstructionsIn = prompt(">");
+    let moreObstructionsIn = validateYorN();
 
-    moreObstructions = moreObstructionsIn.toLowerCase() != "y" ? false : true;
+    moreObstructions = moreObstructionsIn != "y" ? false : true;
     obstructionsAreaTotal += obstructionArea;
   } while (moreObstructions == true);
 
   console.log("Total obstruction area: " + obstructionsAreaTotal);
   return obstructionsAreaTotal;
+};
+
+// Validate user input is y or n
+const validateYorN = () => {
+  let input = "a";
+  do {
+    input = prompt(">").toLowerCase();
+    console.log(input);
+    if (input != "y" && input != "n") {
+      console.log(
+        input + " Input not recognised please insert 'y' for yes or 'n' for no"
+      );
+    }
+  } while (input != "y" && input != "n");
+
+  return input;
 };
 
 start();
