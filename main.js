@@ -14,8 +14,9 @@ const roomCalc = () => {
   for (let i = 0; i < numOfWalls; i++) {
     console.log("\n\t\t\t---------- Wall " + (i + 1) + " ----------");
     walls.push(wallCalc());
-    console.log("Current walls" + walls);
+    console.log("Current walls: " + walls);
   }
+  console.log("Total area: " + arraySum(walls));
   return walls;
 };
 
@@ -80,6 +81,14 @@ const validateYorN = () => {
   } while (input != "y" && input != "n");
 
   return input;
+};
+
+const arraySum = (array) => {
+  let sum = 0;
+  for (let i = 0; i < array.length; i++) {
+    sum += array[i];
+  }
+  return sum;
 };
 
 start();
