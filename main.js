@@ -90,15 +90,20 @@ const obstructionCalc = (area) => {
     let height = inputNumber();
 
     let obstructionArea = width * height;
+    if (obstructionArea >= area) {
+      console.log(
+        "Invalid input. obstruction must be smaller than the wall.\n"
+      );
+      moreObstructions = true;
+    } else {
+      console.log("Are there any more obstructions? (y/n)");
+      moreObstructionsIn = inputYorN();
 
-    console.log("Are there any more obstructions? (y/n)");
-    let moreObstructionsIn = inputYorN();
-
-    moreObstructions = moreObstructionsIn != "y" ? false : true;
-    obstructionsAreaTotal += obstructionArea;
+      moreObstructions = moreObstructionsIn != "y" ? false : true;
+      obstructionsAreaTotal += obstructionArea;
+    }
   } while (moreObstructions == true);
 
-  console.log("Total obstruction area: " + obstructionsAreaTotal);
   return obstructionsAreaTotal;
 };
 
