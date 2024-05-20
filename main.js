@@ -1,6 +1,6 @@
 const prompt = require("prompt-sync")();
 
-const start = () => {
+const main = () => {
   console.log("Welcome to the paint calculator.");
   paintCalc();
 };
@@ -17,7 +17,7 @@ const paintCalc = () => {
 
   // Get desired paint type
   console.log("What type of paint would you like?");
-  const paintType = menuInput((options = ["GoodHome", "Dulux"]));
+  const paintType = menuInput((options = ["GoodHome", "Dulux", "Leyland"]));
 
   // Print final results
   console.log("\nTotal area to paint: " + areaToPaint / 100 + " square meters");
@@ -36,6 +36,8 @@ const printTable = (cans, type = "Dulux") => {
     canPrices = paintTypes.GoodHome.prices;
   } else if (type == "Dulux") {
     canPrices = paintTypes.Dulux.prices;
+  } else if (type == "Leyland") {
+    canPrices = paintTypes.Leyland.prices;
   }
   // Print results in a table
   console.log("\n\t----------Cans needed----------");
@@ -82,18 +84,21 @@ const roomCalc = () => {
 
 // Get wall area
 const wallCalc = () => {
+  // Get wall measurements from user
   console.log("What is the height of the wall in cm?");
   let height = inputNumber();
-
   console.log("What is the width of the wall in cm?");
   let width = inputNumber();
-
   let area = width * height;
+
+  // Check if there are obstructions
   let obstructedArea = 0;
   console.log(
     "Are there any obstructions or areas of the wall that do not need painting? (y/n)"
   );
   let obstructions = inputYorN();
+
+  // If yes, get obstructions from user
   if (obstructions == "y") {
     obstructedArea = obstructionCalc(area);
   }
@@ -107,26 +112,36 @@ const obstructionCalc = (area) => {
   let obstructionsAreaTotal = 0;
 
   do {
-    console.log("What is the width of the obstruction?");
+    // Get obstruction measurements
+    console.log("What is the width of the obstruction in cm?");
     let width = inputNumber();
-
-    console.log("What is the height of the obstruction?");
+    console.log("What is the height of the obstruction in cm?");
     let height = inputNumber();
 
+    // Calculate obstruction area
     let obstructionArea = width * height;
+
+    // Check obstruction is not larger than wall
     if (obstructionArea >= area) {
       console.log(
         "Invalid input. obstruction must be smaller than the wall.\n"
       );
       moreObstructions = true;
     } else {
-      console.log("Are there any more obstructions? (y/n)");
-      moreObstructionsIn = inputYorN();
-      moreObstructions = moreObstructionsIn != "y" ? false : true;
       obstructionsAreaTotal += obstructionArea;
+      if (obstructionsAreaTotal >= area) {
+        console.log(
+          "Error: Total obstruced area must be smaller than the wall.\nReseting Obstructions for this wall."
+        );
+        obstructionsAreaTotal = 0;
+      } else {
+        // Check if therea are more obstructions to add
+        console.log("Are there any more obstructions? (y/n)");
+        moreObstructionsIn = inputYorN();
+        moreObstructions = moreObstructionsIn != "y" ? false : true;
+      }
     }
   } while (moreObstructions == true);
-
   return obstructionsAreaTotal;
 };
 
@@ -179,8 +194,10 @@ const inputNumber = () => {
     input = prompt(">").toLowerCase();
 
     if (isNaN(input)) {
+      // Input is not a number
       console.log(input + " is not valid. Please insert a number");
     } else if (input == "" || input.substr(0, 1) == " ") {
+      // Input is blank
       console.log("No input detected. Please enter a valid number");
     } else {
       valid = true;
@@ -200,7 +217,7 @@ const menuInput = (options = []) => {
   do {
     let input = prompt(">");
 
-    // Check input is valid number with corresponding option
+    // Check input is valid number with a corresponding option
     if (input >= 1 && input <= options.length) {
       input -= 1;
       valid = true;
@@ -232,6 +249,9 @@ const paintTypes = {
   Dulux: {
     prices: [24, 18, 15],
   },
+  Leyland: {
+    prices: [16, 11, 8],
+  },
 };
 
-start();
+main();
