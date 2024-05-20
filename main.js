@@ -1,8 +1,8 @@
 const prompt = require("prompt-sync")();
 
 // Calculate paint needed and display results
-const main = () => {
-  console.log("Welcome to the paint calculator.");
+const paintCalc = () => {
+  console.log("Welcome to the paint calculator."); // TODO: Add instructions
   let areaToPaint = arraySum(roomCalc());
 
   // Add optional 10% wastage buffer
@@ -12,12 +12,12 @@ const main = () => {
   paintNeededLitre = Math.round((paintNeeded / 1000) * 100) / 100; // Convert to litres
 
   // Get desired paint type
-  console.log("What type of paint would you like?");
+  console.log("\nWhat type of paint would you like?");
   const paintType = menuInput((options = ["GoodHome", "Dulux", "Leyland"]));
 
   // Print final results
-  console.log("\nTotal area to paint: " + areaToPaint / 100 + " square meters");
-  console.log("10% wastage buffer? " + wastageBuffer.toUpperCase());
+  console.log("\nTotal area to paint: " + areaToPaint / 100 + "m2");
+  console.log("10% wastage buffer: " + wastageBuffer.toUpperCase());
   console.log("Paint needed: " + paintNeededLitre + "L");
   console.log("Paint type: " + paintType);
   printTable((cans = canCalc(paintNeededLitre)), (type = paintType));
@@ -266,4 +266,4 @@ const paintTypes = {
   },
 };
 
-main();
+module.exports = { paintCalc, arraySum };
