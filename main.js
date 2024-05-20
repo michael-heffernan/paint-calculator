@@ -1,12 +1,8 @@
 const prompt = require("prompt-sync")();
 
+// Calculate paint needed and display results
 const main = () => {
   console.log("Welcome to the paint calculator.");
-  paintCalc();
-};
-
-// Calculate paint needed
-const paintCalc = () => {
   let areaToPaint = arraySum(roomCalc());
 
   // Add optional 10% wastage buffer
@@ -23,6 +19,7 @@ const paintCalc = () => {
   console.log("\nTotal area to paint: " + areaToPaint / 100 + " square meters");
   console.log("10% wastage buffer? " + wastageBuffer.toUpperCase());
   console.log("Paint needed: " + paintNeededLitre + "L");
+  console.log("Paint type: " + paintType);
   printTable((cans = canCalc(paintNeededLitre)), (type = paintType));
 };
 
@@ -70,7 +67,7 @@ const printTable = (cans, type = "Dulux") => {
   console.log("\t\t\t\tTotal:\t£" + total);
 };
 
-// Get room area
+// Get total area to paint in a room
 const roomCalc = () => {
   console.log("How many walls are there in the room?");
   let numOfWalls = inputNumber();
@@ -82,9 +79,9 @@ const roomCalc = () => {
   return walls;
 };
 
-// Get wall area
+// Calculate area of wall to paint
 const wallCalc = () => {
-  // Get wall measurements from user
+  // Get wall dimensions from user and calculate area
   let area = areaCalc("wall");
 
   // Check if there are obstructions
@@ -98,6 +95,8 @@ const wallCalc = () => {
   if (obstructions == "y") {
     obstructedArea = obstructionCalc(area);
   }
+
+  // Calculate total area to paint excluding obstructions
   let areaToPaint = area - obstructedArea;
   return areaToPaint;
 };
@@ -119,13 +118,15 @@ const obstructionCalc = (area) => {
       moreObstructions = true;
     } else {
       obstructionsAreaTotal += obstructionArea;
+
+      // Check total area of obstructions is not bigger than wall
       if (obstructionsAreaTotal >= area) {
         console.log(
           "Error: Total obstruced area must be smaller than the wall.\nReseting Obstructions for this wall."
         );
         obstructionsAreaTotal = 0;
       } else {
-        // Check if therea are more obstructions to add
+        // Check if there are more obstructions to add
         console.log("Are there any more obstructions? (y/n)");
         let moreObstructionsIn = inputYorN();
         moreObstructions = moreObstructionsIn != "y" ? false : true;
