@@ -127,7 +127,7 @@ const obstructionCalc = (area) => {
       } else {
         // Check if therea are more obstructions to add
         console.log("Are there any more obstructions? (y/n)");
-        moreObstructionsIn = inputYorN();
+        let moreObstructionsIn = inputYorN();
         moreObstructions = moreObstructionsIn != "y" ? false : true;
       }
     }
@@ -175,12 +175,16 @@ const inputYorN = () => {
   let valid = false;
   do {
     input = prompt(">").toLowerCase();
-    if (input != "y" && input != "n") {
-      console.log(
-        input + " is not valid. Please insert 'y' for yes or 'n' for no"
-      );
-    } else {
-      valid = true;
+
+    // Validate input
+    try {
+      if (input != "y" && input != "n") {
+        throw "Invalid input. Please insert 'y' for yes or 'n' for no";
+      } else {
+        valid = true;
+      }
+    } catch (err) {
+      console.log("Error: " + err);
     }
   } while (valid == false);
 
@@ -193,14 +197,17 @@ const inputNumber = () => {
   do {
     input = prompt(">").toLowerCase();
 
-    if (isNaN(input)) {
-      // Input is not a number
-      console.log(input + " is not valid. Please insert a number");
-    } else if (input == "" || input.substr(0, 1) == " ") {
-      // Input is blank
-      console.log("No input detected. Please enter a valid number");
-    } else {
-      valid = true;
+    // Validate input
+    try {
+      if (isNaN(input)) {
+        throw "" + input + " is not valid. Please enter a valid number";
+      } else if (input == "" || input.substr(0, 1) == " ") {
+        throw "No input detected. Please enter a valid number";
+      } else {
+        valid = true;
+      }
+    } catch (err) {
+      console.log("Error: " + err);
     }
   } while (valid == false);
   return input;
@@ -218,14 +225,18 @@ const menuInput = (options = []) => {
     let input = prompt(">");
 
     // Check input is valid number with a corresponding option
-    if (input >= 1 && input <= options.length) {
-      input -= 1;
-      valid = true;
-      result = options[input];
-    } else {
-      console.log(
-        "Invalid input. Please enter a number between 1 and " + options.length
-      );
+    try {
+      if (input >= 1 && input <= options.length) {
+        input -= 1;
+        valid = true;
+        result = options[input];
+      } else {
+        throw (
+          "Invalid input. Please enter a number between 1 and " + options.length
+        );
+      }
+    } catch (err) {
+      console.log("Error " + err);
     }
   } while (valid == false);
   return result;
