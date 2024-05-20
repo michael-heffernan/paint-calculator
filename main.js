@@ -85,11 +85,7 @@ const roomCalc = () => {
 // Get wall area
 const wallCalc = () => {
   // Get wall measurements from user
-  console.log("What is the height of the wall in cm?");
-  let height = inputNumber();
-  console.log("What is the width of the wall in cm?");
-  let width = inputNumber();
-  let area = width * height;
+  let area = areaCalc("wall");
 
   // Check if there are obstructions
   let obstructedArea = 0;
@@ -113,13 +109,7 @@ const obstructionCalc = (area) => {
 
   do {
     // Get obstruction measurements
-    console.log("What is the width of the obstruction in cm?");
-    let width = inputNumber();
-    console.log("What is the height of the obstruction in cm?");
-    let height = inputNumber();
-
-    // Calculate obstruction area
-    let obstructionArea = width * height;
+    let obstructionArea = areaCalc("obstruction");
 
     // Check obstruction is not larger than wall
     if (obstructionArea >= area) {
@@ -168,6 +158,16 @@ const canCalc = (paintQuant) => {
     }
   }
   return cans;
+};
+
+// Get height and width input from user and calculate an area
+const areaCalc = (item) => {
+  console.log("What is the width of the " + item + " in cm?");
+  let width = inputNumber();
+  console.log("What is the height of the " + item + " in cm?");
+  let height = inputNumber();
+  area = width * height;
+  return area;
 };
 
 // Validate user input is y or n
